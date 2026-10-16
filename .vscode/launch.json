@@ -1,0 +1,20 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      // Breakpoints work in both .rs and .cc files; step from Rust into C++.
+      "name": "Debug app (Rust + C++)",
+      "type": "cppvsdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/target/debug/app.exe",
+      "args": [],
+      "cwd": "${workspaceFolder}",
+      "environment": [
+        { "name": "RUST_LOG", "value": "debug" },
+        { "name": "RUST_BACKTRACE", "value": "1" }
+      ],
+      "console": "integratedTerminal",
+      "preLaunchTask": "cargo build"
+    }
+  ]
+}

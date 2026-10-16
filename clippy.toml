@@ -1,0 +1,4 @@
+# Lint levels live in [workspace.lints.clippy] in Cargo.toml; this file only
+# tunes individual lints.
+allow-unwrap-in-tests = true
+allow-expect-in-tests = true

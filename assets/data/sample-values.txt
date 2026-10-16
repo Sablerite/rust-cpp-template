@@ -1,0 +1,9 @@
+# Sample data for the demo app: one positive integer per line.
+# The "oops" line shows a C++ exception arriving in Rust as an Err.
+4
+8
+15
+16
+23
+42
+oops

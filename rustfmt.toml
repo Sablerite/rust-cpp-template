@@ -1,0 +1,3 @@
+# Default rustfmt style plus a couple of stable tweaks. Edition comes from Cargo.toml.
+use_field_init_shorthand = true
+use_try_shorthand = true

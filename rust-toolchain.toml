@@ -1,0 +1,4 @@
+[toolchain]
+# Pin to an exact version (e.g. "1.96.1") when you need reproducible builds.
+channel = "stable"
+components = ["rustfmt", "clippy", "rust-src"]

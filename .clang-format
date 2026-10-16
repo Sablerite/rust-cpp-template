@@ -1,0 +1,6 @@
+# C++ formatting (clang-format). Run `just fmt`.
+BasedOnStyle: Google
+ColumnLimit: 100
+DerivePointerAlignment: false
+PointerAlignment: Left
+IncludeBlocks: Preserve

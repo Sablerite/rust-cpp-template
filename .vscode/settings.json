@@ -1,0 +1,34 @@
+{
+  // Rust
+  "rust-analyzer.check.command": "clippy",
+  // "Debug" code lens above tests/main uses the Microsoft debugger, which
+  // steps through Rust and C++ alike.
+  "rust-analyzer.debug.engine": "ms-vscode.cpptools",
+  "[rust]": {
+    "editor.defaultFormatter": "rust-lang.rust-analyzer",
+    "editor.formatOnSave": true
+  },
+
+  // C++ (Microsoft C/C++ extension). Include paths: .vscode/c_cpp_properties.json.
+  "[cpp]": {
+    "editor.defaultFormatter": "ms-vscode.cpptools",
+    "editor.formatOnSave": true
+  },
+  "C_Cpp.formatting": "clangFormat",
+  "C_Cpp.clang_format_style": "file",
+  "C_Cpp.codeAnalysis.clangTidy.enabled": true,
+  "files.associations": {
+    "*.h": "cpp"
+  },
+
+  // No CMakeLists.txt here on purpose: Cargo drives the build.
+  "cmake.ignoreCMakeListsMissing": true,
+
+  "files.watcherExclude": {
+    "**/target/**": true
+  },
+  "search.exclude": {
+    "**/target": true,
+    "compile_commands.json": true
+  }
+}

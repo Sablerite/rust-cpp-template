@@ -1,0 +1,22 @@
+[package]
+name = "app"
+description = "The executable. Keep it thin: wire app-core and the C++ bridges together."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+publish.workspace = true
+
+# scripts/new-project.ps1 renames this binary to the new project's name.
+[[bin]]
+name = "app"
+path = "src/main.rs"
+
+[dependencies]
+anyhow.workspace = true
+app-core.workspace = true
+cpp-example.workspace = true
+tracing.workspace = true
+tracing-subscriber.workspace = true
+
+[lints]
+workspace = true

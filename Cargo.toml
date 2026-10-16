@@ -1,0 +1,62 @@
+[workspace]
+resolver = "3"
+# Pure-Rust crates go in crates/ (`cargo new crates/<name>` adds them here),
+# C++ bridge crates in crates/ffi/ (picked up by the glob).
+members = ["crates/app", "crates/app-core", "crates/ffi/*"]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+# 1.89 is the first release with std::fs::File::lock, used by build-support.
+rust-version = "1.89"
+publish = false
+
+# Every dependency version lives here; member crates use `foo.workspace = true`.
+[workspace.dependencies]
+# Workspace crates
+app-core = { path = "crates/app-core" }
+build-support = { path = "crates/ffi/build-support" }
+cpp-example = { path = "crates/ffi/cpp-example" }
+
+# Rust <-> C++ bridge
+cxx = "1.0.205"
+cxx-build = "1.0.205"
+cc = "1.2"
+vcpkg = "0.2.15"
+
+# Errors and logging
+anyhow = "1.0.104"
+thiserror = "2.0.21"
+tracing = "0.1.44"
+tracing-subscriber = { version = "0.3.23", features = ["env-filter"] }
+
+[workspace.lints.rust]
+# Only cxx bridge modules may opt back in, with `#[allow(unsafe_code)]` on the module.
+unsafe_code = "deny"
+rust_2018_idioms = { level = "warn", priority = -1 }
+
+[workspace.lints.clippy]
+all = { level = "warn", priority = -1 }
+pedantic = { level = "warn", priority = -1 }
+module_name_repetitions = "allow"
+missing_errors_doc = "allow"
+missing_panics_doc = "allow"
+dbg_macro = "warn"
+todo = "warn"
+unwrap_used = "warn"
+undocumented_unsafe_blocks = "warn"
+
+[profile.dev.package."*"]
+# Dependencies keep only line tables: smaller PDBs and faster links on Windows,
+# while backtraces still show file:line. Workspace crates keep full debug info.
+debug = "line-tables-only"
+
+[profile.release]
+lto = "thin"
+debug = "line-tables-only"
+
+# `cargo build --profile dist` (or `just dist`): slowest build, fastest binary.
+[profile.dist]
+inherits = "release"
+lto = "fat"
+codegen-units = 1

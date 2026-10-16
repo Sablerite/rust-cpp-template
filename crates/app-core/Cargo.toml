@@ -1,0 +1,12 @@
+[package]
+name = "app-core"
+description = "Pure-Rust application logic. No C++ here, so it builds and tests fast."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+publish.workspace = true
+
+[dependencies]
+
+[lints]
+workspace = true

@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+env:
+  CARGO_TERM_COLOR: always
+  VCPKG_DISABLE_METRICS: 1
+
+jobs:
+  check:
+    name: Lint and test (Windows)
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust (version from rust-toolchain.toml)
+        run: rustup show
+
+      - uses: Swatinem/rust-cache@v2
+
+      # vcpkg's binary cache holds compiled C++ packages. build-support finds
+      # vcpkg through VCPKG_INSTALLATION_ROOT, which GitHub runners preset.
+      - uses: actions/cache@v4
+        with:
+          path: ~/AppData/Local/vcpkg/archives
+          key: vcpkg-${{ runner.os }}-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json') }}
+          restore-keys: vcpkg-${{ runner.os }}-
+
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: cargo-nextest,cargo-deny
+
+      - name: Rust formatting
+        run: cargo fmt --all --check
+
+      - name: Clippy
+        run: cargo clippy --workspace --all-targets -- -D warnings
+
+      - name: C++ formatting
+        shell: pwsh
+        run: ./scripts/cpp.ps1 check-format
+
+      - name: Tests
+        run: |
+          cargo nextest run --workspace
+          cargo test --workspace --doc
+
+      - name: Licenses and advisories
+        run: cargo deny check

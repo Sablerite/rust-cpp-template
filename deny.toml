@@ -1,0 +1,32 @@
+# cargo-deny: run `just deny`. Docs: https://embarkstudios.github.io/cargo-deny/
+# Covers Rust crates only; C++ libraries are pinned by vcpkg-configuration.json.
+
+[advisories]
+# Fail on crates with known security vulnerabilities or that are unmaintained.
+version = 2
+
+[licenses]
+version = 2
+# Permissive licenses only. Add to this list deliberately, one at a time.
+allow = [
+  "MIT",
+  "Apache-2.0",
+  "Apache-2.0 WITH LLVM-exception",
+  "BSD-2-Clause",
+  "BSD-3-Clause",
+  "ISC",
+  "Unicode-3.0",
+  "Zlib",
+]
+# Workspace crates are `publish = false`; don't require a license on them.
+private = { ignore = true }
+
+[bans]
+multiple-versions = "warn"
+wildcards = "deny"
+# Path dependencies between workspace crates have no version; that's fine.
+allow-wildcard-paths = true
+
+[sources]
+unknown-registry = "deny"
+unknown-git = "deny"
